@@ -1,13 +1,13 @@
-import { API_BASE_URL, ACCESS_TOKEN, API_RESIGN_URL } from '../constants';
+import {ACCESS_TOKEN, API_BASE_URL, API_RESIGN_URL} from '../constants';
 import {notification} from "antd";
-
+import _ from 'lodash'
 
 const request = (options) => {
     const headers = new Headers({
         'Content-Type': 'application/json',
     })
 
-    if(localStorage.getItem(ACCESS_TOKEN)) {
+    if (localStorage.getItem(ACCESS_TOKEN)) {
         headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
     }
 
@@ -15,14 +15,14 @@ const request = (options) => {
     options = Object.assign({}, defaults, options);
 
     return fetch(options.url, options)
-    .then(response =>
-        response.json().then(json => {
-            if(!response.ok) {
-                return Promise.reject(json);
-            }
-            return json;
-        })
-    );
+        .then(response =>
+            response.json().then(json => {
+                if (!response.ok) {
+                    return Promise.reject(json);
+                }
+                return json;
+            })
+        );
 };
 
 export function login(loginRequest) {
@@ -57,7 +57,7 @@ export function checkEmailAvailability(email) {
 
 
 export function getCurrentUser() {
-    if(!localStorage.getItem(ACCESS_TOKEN)) {
+    if (!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
     }
 
@@ -65,6 +65,16 @@ export function getCurrentUser() {
         url: API_BASE_URL + "/user/me",
         method: 'GET'
     });
+}
+
+export function checkPermission(user, permission) {
+    let hasPermission = false;
+    hasPermission = _.some(user.authorities, function (userPermission) {
+        return userPermission.authority === permission;
+    })
+
+    return hasPermission;
+
 }
 
 export function getUserProfile(username) {
@@ -76,27 +86,26 @@ export function getUserProfile(username) {
 
 export function submitResignation(resignationRequest) {
     return request({
-            url: API_RESIGN_URL,
-            method: 'POST',
-            body: JSON.stringify(resignationRequest)
-        });
+        url: API_RESIGN_URL,
+        method: 'POST',
+        body: JSON.stringify(resignationRequest)
+    });
 }
 
 
 export function getSubmittedResign(empId) {
     return request({
-        url: API_RESIGN_URL + "/"+empId,
+        url: API_RESIGN_URL + "/" + empId,
         method: 'GET'
     });
 }
 
 export function updateStatus(empId) {
     return request({
-        url: API_RESIGN_URL + "/updatestatus?employeeId="+empId+"&status=WITHDRAW",
+        url: API_RESIGN_URL + "/updatestatus?employeeId=" + empId + "&status=WITHDRAW",
         method: 'GET'
     });
 }
-
 
 
 export const openNotificationWithIcon = (type, message, description) => {

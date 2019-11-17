@@ -10,6 +10,7 @@ import ApprovedByMe from "./otherview/approvedbyme";
 import RejectedByMe from "./otherview/rejectedbyme";
 import PageNotFound from "./otherview/pageNotFound";
 import {ACCESS_TOKEN} from "./constants";
+import {checkPermission} from "./utils/APIUtils";
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -48,13 +49,6 @@ export default class Dashboard extends React.Component {
                                     <Avatar style={{ backgroundColor: '#7265e6', verticalAlign: 'middle' }} size={60}>
                                         {this.state.user.name}
                                     </Avatar>
-                                    {/*<Button*/}
-                                    {/*    size="small"*/}
-                                    {/*    style={{ marginLeft: 16, verticalAlign: 'middle' }}*/}
-                                    {/*    // onClick={this.changeUser}*/}
-                                    {/*>*/}
-                                    {/*    Log Out*/}
-                                    {/*</Button>*/}
                                     <Button
                                         type="primary"
                                         icon="poweroff"
@@ -71,8 +65,9 @@ export default class Dashboard extends React.Component {
                     <Layout>
                         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse} width={210}>
                             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" className='option1'>
-                                <SubMenu
+                                    <SubMenu
                                     key="sub1"
+                                    disabled={!checkPermission(this.state.user, 'ROLE_EMPLOYEE')}
                                     title={
                                         <span>
                                         <Icon type="user"/>
@@ -87,6 +82,7 @@ export default class Dashboard extends React.Component {
                                 </SubMenu>
                                 <SubMenu
                                     key="sub2"
+                                    disabled={!checkPermission(this.state.user, 'ROLE_MANAGER')}
                                     title={
                                         <span>
                                         <Icon type="team"/>
@@ -100,6 +96,10 @@ export default class Dashboard extends React.Component {
                                 </SubMenu>
                                 <SubMenu
                                     key="sub3"
+                                    disabled={!(checkPermission(this.state.user, 'ROLE_HR') ||
+                                        checkPermission(this.state.user, 'ROLE_ADMIN') ||
+                                            checkPermission(this.state.user, 'ROLE_FINANCE'))
+                                    }
                                     title={
                                         <span>
                                         <Icon type="team"/>
@@ -125,13 +125,30 @@ export default class Dashboard extends React.Component {
                                 </Breadcrumb>
                                 <div style={{padding: 24, background: '#fff', height: '100%'}}>
                                     <Switch>
-                                        <Route exact path="/" component={UserInfo}/>
-                                        <Route exact path="/userinfo" component={UserInfo}/>
-                                        <Route exact path="/applyResignation" component={ApplyResignation}/>
-                                        <Route exact path="/resignationStatus" component={ResignationStatus}/>
-                                        <Route exact path="/awaitingMe" component={SubmittedResignation}/>
-                                        <Route exact path="/approved" component={ApprovedByMe}/>
-                                        <Route exact path="/rejected" component={RejectedByMe}/>
+                                        <Route exact path="/" render={(props) =>(
+                                            <UserInfo user={this.state.user}/>
+                                        )}/>
+                                        <Route exact path="/userinfo" render={(props) =>(
+                                            <UserInfo user={this.state.user}/>
+                                        )}/>
+                                        <Route exact path="/applyResignation" render={(props) =>(
+                                            <ApplyResignation user={this.state.user}/>
+                                        )}/>
+                                        <Route exact path="/applyResignation" render={(props) =>(
+                                            <ResignationStatus user={this.state.user}/>
+                                        )}/>
+                                        <Route exact path="/resignationStatus" render={(props) =>(
+                                            <ResignationStatus user={this.state.user}/>
+                                        )}/>
+                                        <Route exact path="/awaitingMe" render={(props) =>(
+                                            <SubmittedResignation user={this.state.user}/>
+                                        )}/>
+                                        <Route exact path="/approved" render={(props) =>(
+                                            <ApprovedByMe user={this.state.user}/>
+                                        )}/>
+                                        <Route exact path="/rejected" render={(props) =>(
+                                            <RejectedByMe user={this.state.user}/>
+                                        )}/>
                                         <Route component={PageNotFound}/>
                                     </Switch>
                                 </div>

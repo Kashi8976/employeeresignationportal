@@ -4,7 +4,7 @@ import {Button, Descriptions, Input, Typography} from 'antd';
 const {TextArea} = Input;
 const {Paragraph} = Typography;
 
-function ApplyResignation() {
+function ApplyResignation(props) {
     return (
         <div>
             <Descriptions bordered title="Employee Resignation Form" column={2}>

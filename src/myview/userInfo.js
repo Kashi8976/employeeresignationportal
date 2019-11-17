@@ -1,7 +1,7 @@
 import React from 'react';
 import {Badge, Descriptions } from 'antd';
 
-function UserInfo() {
+function UserInfo(props) {
     return (
         <Descriptions theme="dark" title="User Info" layout="vertical" bordered>
             <Descriptions.Item label="Name">Kashinath Shinge</Descriptions.Item>
