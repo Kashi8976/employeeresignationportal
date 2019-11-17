@@ -9,6 +9,7 @@ import SubmittedResignation from "./otherview/submittedResignation";
 import ApprovedByMe from "./otherview/approvedbyme";
 import RejectedByMe from "./otherview/rejectedbyme";
 import PageNotFound from "./otherview/pageNotFound";
+import FeedbackForm from './myview/exitInterviewForm';
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -107,6 +108,7 @@ export default class Dashboard extends React.Component {
                                         <Route exact path="/awaitingMe" component={SubmittedResignation}/>
                                         <Route exact path="/approved" component={ApprovedByMe}/>
                                         <Route exact path="/rejected" component={RejectedByMe}/>
+                                        <Route exact path="/exitform" component={FeedbackForm}/>
                                         <Route component={PageNotFound}/>
                                     </Switch>
                                 </div>
