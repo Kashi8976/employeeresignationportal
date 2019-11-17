@@ -14,9 +14,15 @@ const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
 
 export default class Dashboard extends React.Component {
-    state = {
-        collapsed: false,
-    };
+
+    constructor(props){
+        super(props);
+        this.state = {
+            collapsed: false,
+            user: this.props.user
+        };
+
+    }
 
     onCollapse = collapsed => {
         console.log(collapsed);
@@ -45,7 +51,7 @@ export default class Dashboard extends React.Component {
                                     title={
                                         <span>
                                         <Icon type="user"/>
-                                        <span>My View</span>
+                                        <span>My View ({this.state.user.name})</span>
                                     </span>
                                     }
                                 >
@@ -89,7 +95,7 @@ export default class Dashboard extends React.Component {
                         <Layout>
                             <Content style={{margin: '0 16px'}}>
                                 <Breadcrumb style={{margin: '16px 0'}}>
-                                    <Breadcrumb.Item>My View</Breadcrumb.Item>
+                                    <Breadcrumb.Item>My View </Breadcrumb.Item>
                                     <Breadcrumb.Item>My Info</Breadcrumb.Item>
                                 </Breadcrumb>
                                 <div style={{padding: 24, background: '#fff', height: '100%'}}>
