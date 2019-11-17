@@ -105,3 +105,19 @@ export const openNotificationWithIcon = (type, message, description) => {
         description: description,
     });
 }
+
+
+export function fetchFromUri(uri) {
+    return request({
+        url: uri,
+        method: 'GET'
+    });
+}
+
+export function postBodyToUri(uri,requestBody){
+    return request({
+        url:uri,
+        body: JSON.stringify(requestBody),
+        method:'POST',  
+    });
+}   

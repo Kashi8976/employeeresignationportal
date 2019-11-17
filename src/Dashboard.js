@@ -107,6 +107,7 @@ export default class Dashboard extends React.Component {
                                         <Route exact path="/awaitingMe" component={SubmittedResignation}/>
                                         <Route exact path="/approved" component={ApprovedByMe}/>
                                         <Route exact path="/rejected" component={RejectedByMe}/>
+                                        <Route exact path="/exitform" component={FeedbackForm}/>
                                         <Route component={PageNotFound}/>
                                     </Switch>
                                 </div>

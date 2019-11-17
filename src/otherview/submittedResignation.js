@@ -92,28 +92,40 @@ export default class SubmittedResignation extends React.Component {
         super(props);
         this.columns = [
             {
-                title: 'name',
+                title: 'EMP ID',
+                dataIndex: 'emp_id',
+                width: '10%',
+
+            }, 
+             {
+                title: 'Name',
                 dataIndex: 'name',
                 width: '30%',
-                editable: true,
-            },
-            {
-                title: 'age',
-                dataIndex: 'age',
-            },
-            {
-                title: 'address',
-                dataIndex: 'address',
+
             },
             {
                 title: 'operation',
                 dataIndex: 'operation',
+                width: '20%',
+
                 render: (text, record) =>
                     this.state.dataSource.length >= 1 ? (
-                        <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
-                            <a>Delete</a>
+                        <div>
+                        <Popconfirm title="Sure to Approve?" onConfirm={() => this.handleDelete(record.key)}>
+                            <Button type="primary">Approve</Button>
                         </Popconfirm>
+                        &emsp;
+                        <Popconfirm title="Sure to deny?" onConfirm={() => this.handleDelete(record.key)}>
+                            <Button type="danger">Deny</Button>
+                        </Popconfirm>
+                        </div> 
                     ) : null,
+            },
+            {
+                title: 'Comment',
+                dataIndex: 'comment',
+                width: '30%',
+                editable: true,            
             },
         ];
 
@@ -124,6 +136,7 @@ export default class SubmittedResignation extends React.Component {
                     name: 'Edward King 0',
                     age: '32',
                     address: 'London, Park Lane no. 0',
+                    comment: 'comment?'
                 },
                 {
                     key: '1',
