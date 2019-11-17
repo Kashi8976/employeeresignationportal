@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {Link} from "react-router-dom";
-import {Breadcrumb, Icon, Layout, Menu} from "antd";
+import {Breadcrumb, Icon, Layout, Menu, Row, Col, Avatar , Button} from "antd";
 import UserInfo from "./myview/userInfo";
 import ApplyResignation from "./myview/applyResignation";
 import ResignationStatus from "./myview/ResignationStatus";
@@ -9,6 +9,7 @@ import SubmittedResignation from "./otherview/submittedResignation";
 import ApprovedByMe from "./otherview/approvedbyme";
 import RejectedByMe from "./otherview/rejectedbyme";
 import PageNotFound from "./otherview/pageNotFound";
+import {ACCESS_TOKEN} from "./constants";
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -24,6 +25,12 @@ export default class Dashboard extends React.Component {
 
     }
 
+    logout = (redirectTo = "/", notificationType = "success", description = "You're successfully logged out.") => {
+        localStorage.removeItem(ACCESS_TOKEN);
+        this.setState({user: {}});
+        window.location = '/';
+    }
+
     onCollapse = collapsed => {
         console.log(collapsed);
         this.setState({collapsed});
@@ -33,15 +40,33 @@ export default class Dashboard extends React.Component {
         return (
             <Router>
                 <Layout style={{minHeight: '100vh'}}>
-                    <Header className="header">
-                        <div className="logo"/>
-                        <Menu
-                            theme="dark"
-                            mode="horizontal"
-                            defaultSelectedKeys={['2']}
-                            style={{lineHeight: '64px'}}
-                        >
-                        </Menu>
+                    <Header >
+                        <Row theme='dark' type="flex" justify="start">
+                            <Col align='left' span={8} ><img src='mo_logo_white.png' height='50px' width="290"/></Col>
+                            <Col span={4} offset={12}>
+                                <div>
+                                    <Avatar style={{ backgroundColor: '#7265e6', verticalAlign: 'middle' }} size={60}>
+                                        {this.state.user.name}
+                                    </Avatar>
+                                    {/*<Button*/}
+                                    {/*    size="small"*/}
+                                    {/*    style={{ marginLeft: 16, verticalAlign: 'middle' }}*/}
+                                    {/*    // onClick={this.changeUser}*/}
+                                    {/*>*/}
+                                    {/*    Log Out*/}
+                                    {/*</Button>*/}
+                                    <Button
+                                        type="primary"
+                                        icon="poweroff"
+                                        size='small'
+                                        style={{ marginLeft: 16, verticalAlign: 'middle' }}
+                                        onClick={this.logout}
+                                    >
+                                        Logout
+                                    </Button>
+                                </div>
+                            </Col>
+                        </Row>
                     </Header>
                     <Layout>
                         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse} width={210}>

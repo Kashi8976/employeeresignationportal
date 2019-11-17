@@ -25,6 +25,8 @@ class HrDashboard extends React.Component {
             }).catch(error => {
                 openNotificationWithIcon('error', 'Failed to Fetch User', '');
             });
+        } else {
+            this.setState({user: {}});
         }
     }
 
