@@ -9,6 +9,7 @@ import SubmittedResignation from "./otherview/submittedResignation";
 import ApprovedByMe from "./otherview/approvedbyme";
 import RejectedByMe from "./otherview/rejectedbyme";
 import PageNotFound from "./otherview/pageNotFound";
+import FeedbackForm from './myview/exitInterviewForm';
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
