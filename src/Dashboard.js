@@ -59,7 +59,7 @@ export default class Dashboard extends React.Component {
                                     <Menu.Item key="3"><Link to="/">My Info</Link></Menu.Item>
                                     <Menu.Item key="4"><Link to="/applyResignation">Resignation</Link></Menu.Item>
                                     <Menu.Item key="5"><Link to="/resignationStatus">Resignation Status</Link></Menu.Item>
-                                    <Menu.Item key="6"><Link to="/resignationStatus">Exit Interview</Link></Menu.Item>
+                                    <Menu.Item key="6"><Link to="/exitForm">Exit Interview</Link></Menu.Item>
                                 </SubMenu>
                                 <SubMenu
                                     key="sub2"
