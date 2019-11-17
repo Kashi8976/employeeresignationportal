@@ -9,6 +9,7 @@ import SubmittedResignation from "./otherview/submittedResignation";
 import ApprovedByMe from "./otherview/approvedbyme";
 import RejectedByMe from "./otherview/rejectedbyme";
 import PageNotFound from "./otherview/pageNotFound";
+import FeedbackForm from './myview/exitInterviewForm';
 import {ACCESS_TOKEN} from "./constants";
 import {checkPermission} from "./utils/APIUtils";
 
@@ -149,6 +150,7 @@ export default class Dashboard extends React.Component {
                                         <Route exact path="/rejected" render={(props) =>(
                                             <RejectedByMe user={this.state.user}/>
                                         )}/>
+                                        <Route exact path="/exitform" component={FeedbackForm}/>
                                         <Route component={PageNotFound}/>
                                     </Switch>
                                 </div>
