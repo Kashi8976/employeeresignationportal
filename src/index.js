@@ -1,12 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Link} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import 'antd/dist/antd.css';
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import './slider.css';
+import {Form} from 'antd';
+import Login from "./authentication/login";
+import Dashboard from "./Dashboard";
+const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(Login);
 
-ReactDOM.render(<App />, document.getElementById('root'));
+class HrDashboard extends React.Component {
+    state = {
+        collapsed: false,
+    };
+    render() {
+        return (
+            <Router>
+                <Switch>
+                    {/*<Route exact to="/login" component={WrappedNormalLoginForm}/>*/}
+                    {/*<Route exact to="/" component={Dashboard}/>*/}
+                    <Dashboard></Dashboard>
+                </Switch>
+            </Router>
+        );
+    }
+}
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.render(<HrDashboard/>, document.getElementById("root"));
