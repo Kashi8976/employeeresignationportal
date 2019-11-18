@@ -17,11 +17,10 @@ export default class Login extends React.Component {
                 requestBody.username = values.username;
                 requestBody.password = values.password;
                 login(requestBody)
-                    .then(response => {
-                        localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-                        openNotificationWithIcon('success', 'Login successful', '');
-                        window.location = '/';
-                    }).catch(error => {
+                .then(response => {
+                    localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+                   window.location = "/dashboard";
+                }).catch(error => {
                     openNotificationWithIcon('error', 'Login Failed', '');
                 });
             }
@@ -65,17 +64,17 @@ export default class Login extends React.Component {
                                     )}
                                 </Form.Item>
                                 <Form.Item>
-                                    {getFieldDecorator('remember', {
+                                    {/* {getFieldDecorator('remember', {
                                         valuePropName: 'checked',
                                         initialValue: true,
                                     })(<Checkbox>Remember me</Checkbox>)}
                                     <a className="login-form-forgot" href="">
                                         Forgot password
-                                    </a>
+                                    </a> */}
                                     <Button type="primary" htmlType="submit" className="login-form-button">
                                         Log in
                                     </Button>
-                                    Or <a href="">register now!</a>
+                                    {/* Or <a href="">register now!</a> */}
                                 </Form.Item>
                             </Form>
                         </div>

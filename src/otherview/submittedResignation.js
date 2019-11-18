@@ -9,7 +9,6 @@ const EditableRow = ({ form, index, ...props }) => (
         <tr {...props} />
     </EditableContext.Provider>
 );
-
 const EditableFormRow = Form.create()(EditableRow);
 
 class EditableCell extends React.Component {
@@ -107,15 +106,14 @@ export default class SubmittedResignation extends React.Component {
                 title: 'operation',
                 dataIndex: 'operation',
                 width: '20%',
-
                 render: (text, record) =>
                     this.state.dataSource.length >= 1 ? (
                         <div>
-                        <Popconfirm title="Sure to Approve?" onConfirm={() => this.handleDelete(record.key)}>
+                        <Popconfirm title="Sure to Approve?" onConfirm={() => this.handleApprove(record.key)}>
                             <Button type="primary">Approve</Button>
                         </Popconfirm>
                         &emsp;
-                        <Popconfirm title="Sure to deny?" onConfirm={() => this.handleDelete(record.key)}>
+                        <Popconfirm title="Sure to deny?" onConfirm={() => this.handleDeny(record.key)}>
                             <Button type="danger">Deny</Button>
                         </Popconfirm>
                         </div> 
@@ -143,13 +141,19 @@ export default class SubmittedResignation extends React.Component {
                     name: 'Edward King 1',
                     age: '32',
                     address: 'London, Park Lane no. 1',
+                    comment: 'comment?'
+
                 },
             ],
             count: 2,
         };
     }
 
-    handleDelete = key => {
+    handleApprove = key => {
+        const dataSource = [...this.state.dataSource];
+        this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
+    };
+    handleDeny = key => {
         const dataSource = [...this.state.dataSource];
         this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
     };
@@ -159,8 +163,7 @@ export default class SubmittedResignation extends React.Component {
         const newData = {
             key: count,
             name: `Edward King ${count}`,
-            age: 32,
-            address: `London, Park Lane no. ${count}`,
+            comment: 'comment?'
         };
         this.setState({
             dataSource: [...dataSource, newData],
