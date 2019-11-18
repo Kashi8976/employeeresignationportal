@@ -11,7 +11,7 @@ import RejectedByMe from "./otherview/rejectedbyme";
 import PageNotFound from "./otherview/pageNotFound";
 import FeedbackForm from './myview/exitInterviewForm';
 import {ACCESS_TOKEN} from "./constants";
-import {checkPermission} from "./utils/APIUtils";
+import {checkPermission, checkResigned} from "./utils/APIUtils";
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -22,9 +22,8 @@ export default class Dashboard extends React.Component {
         super(props);
         this.state = {
             collapsed: false,
-            user: this.props.user
+            user: this.props.user,
         };
-
     }
 
     logout = (redirectTo = "/", notificationType = "success", description = "You're successfully logged out.") => {
@@ -48,7 +47,7 @@ export default class Dashboard extends React.Component {
                             <Col span={4} offset={12}>
                                 <div>
                                     <Avatar style={{ backgroundColor: '#7265e6', verticalAlign: 'middle' }} size={60}>
-                                        {this.state.user.name}
+                                        {this.state.user.username}
                                     </Avatar>
                                     <Button
                                         type="primary"
@@ -68,7 +67,7 @@ export default class Dashboard extends React.Component {
                             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" className='option1'>
                                     <SubMenu
                                     key="sub1"
-                                    disabled={!checkPermission(this.state.user, 'ROLE_EMPLOYEE')}
+                                    // disabled={!checkPermission(this.state.user, 'ROLE_EMPLOYEE')}
                                     title={
                                         <span>
                                         <Icon type="user"/>
@@ -78,8 +77,8 @@ export default class Dashboard extends React.Component {
                                 >
                                     <Menu.Item key="3"><Link to="/">My Info</Link></Menu.Item>
                                     <Menu.Item key="4"><Link to="/applyResignation">Resignation</Link></Menu.Item>
-                                    <Menu.Item key="5"><Link to="/resignationStatus">Resignation Status</Link></Menu.Item>
-                                    <Menu.Item key="6"><Link to="/resignationStatus">Exit Interview</Link></Menu.Item>
+                                    <Menu.Item key="5" disabled={!checkResigned(this.state.user.user)}><Link to="/resignationStatus">Resignation Status</Link></Menu.Item>
+                                    <Menu.Item key="6" disabled={!checkResigned(this.state.user.user)}><Link to="/exitform">Exit Interview</Link></Menu.Item>
                                 </SubMenu>
                                 <SubMenu
                                     key="sub2"

@@ -1,4 +1,4 @@
-import {ACCESS_TOKEN, API_BASE_URL, API_RESIGN_URL} from '../constants';
+import {ACCESS_TOKEN, API_BASE_URL, API_RESIGN_URL, API_RESIGN_STATUS_URL} from '../constants';
 import {notification} from "antd";
 import _ from 'lodash'
 
@@ -91,6 +91,45 @@ export function submitResignation(resignationRequest) {
         body: JSON.stringify(resignationRequest)
     });
 }
+
+export function checkResigned (user) {
+    let resigned = false;
+    if(user.status !== 'ACTIVE') {
+        resigned = true;
+    }
+    console.log(resigned)
+    return resigned;
+}
+
+export function getResignationForMgr() {
+    return request({
+        url: API_RESIGN_STATUS_URL + "/getresignationformgr",
+        method: 'GET'
+    });
+}
+
+export function getResignationForHr() {
+    return request({
+        url: API_RESIGN_STATUS_URL + "/getresignationforhr",
+        method: 'GET'
+    });
+}
+
+export function getResignationForAdmin() {
+    return request({
+        url: API_RESIGN_STATUS_URL + "/getResignationforadmin",
+        method: 'GET'
+    });
+}
+
+export function getResignationForFinance() {
+    return request({
+        url: API_RESIGN_STATUS_URL + "/getResignationforfinance",
+        method: 'GET'
+    });
+}
+
+
 
 
 export function getSubmittedResign(empId) {

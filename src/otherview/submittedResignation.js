@@ -1,10 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Table, Input, Button, Popconfirm, Form } from 'antd';
+import {Form, Input, Popconfirm, Table} from 'antd';
+import {
+    checkPermission,
+    getResignationForAdmin,
+    getResignationForFinance,
+    getResignationForHr,
+    getResignationForMgr
+} from "../utils/APIUtils";
 
 const EditableContext = React.createContext();
 
-const EditableRow = ({ form, index, ...props }) => (
+const EditableRow = ({form, index, ...props}) => (
     <EditableContext.Provider value={form}>
         <tr {...props} />
     </EditableContext.Provider>
@@ -19,7 +25,7 @@ class EditableCell extends React.Component {
 
     toggleEdit = () => {
         const editing = !this.state.editing;
-        this.setState({ editing }, () => {
+        this.setState({editing}, () => {
             if (editing) {
                 this.input.focus();
             }
@@ -27,22 +33,22 @@ class EditableCell extends React.Component {
     };
 
     save = e => {
-        const { record, handleSave } = this.props;
+        const {record, handleSave} = this.props;
         this.form.validateFields((error, values) => {
             if (error && error[e.currentTarget.id]) {
                 return;
             }
             this.toggleEdit();
-            handleSave({ ...record, ...values });
+            handleSave({...record, ...values});
         });
     };
 
     renderCell = form => {
         this.form = form;
-        const { children, dataIndex, record, title } = this.props;
-        const { editing } = this.state;
+        const {children, dataIndex, record, title} = this.props;
+        const {editing} = this.state;
         return editing ? (
-            <Form.Item style={{ margin: 0 }}>
+            <Form.Item style={{margin: 0}}>
                 {form.getFieldDecorator(dataIndex, {
                     rules: [
                         {
@@ -51,12 +57,12 @@ class EditableCell extends React.Component {
                         },
                     ],
                     initialValue: record[dataIndex],
-                })(<Input ref={node => (this.input = node)} onPressEnter={this.save} onBlur={this.save} />)}
+                })(<Input ref={node => (this.input = node)} onPressEnter={this.save} onBlur={this.save}/>)}
             </Form.Item>
         ) : (
             <div
                 className="editable-cell-value-wrap"
-                style={{ paddingRight: 24 }}
+                style={{paddingRight: 24}}
                 onClick={this.toggleEdit}
             >
                 {children}
@@ -92,26 +98,39 @@ export default class SubmittedResignation extends React.Component {
         super(props);
         this.columns = [
             {
-                title: 'name',
-                dataIndex: 'name',
+                title: 'Employee Name',
+                dataIndex: 'empName',
                 width: '30%',
-                editable: true,
             },
             {
-                title: 'age',
-                dataIndex: 'age',
+                title: 'Employee Id',
+                dataIndex: 'empId',
             },
             {
-                title: 'address',
-                dataIndex: 'address',
+                title: 'Resignation Id',
+                dataIndex: 'resignationId',
             },
             {
-                title: 'operation',
+                title: 'Status',
+                dataIndex: 'status',
+            },
+            {
+                title: 'Reject',
                 dataIndex: 'operation',
                 render: (text, record) =>
                     this.state.dataSource.length >= 1 ? (
-                        <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
-                            <a>Delete</a>
+                        <Popconfirm title="Sure to reject?" onConfirm={() => this.handleReject(record.key)}>
+                            <a>Reject</a>
+                        </Popconfirm>
+                    ) : null,
+            },
+            {
+                title: 'Approve',
+                dataIndex: 'operation',
+                render: (text, record) =>
+                    this.state.dataSource.length >= 1 ? (
+                        <Popconfirm title="Sure to Approve?" onConfirm={() => this.handleApprove(record.key)}>
+                            <a>Approve</a>
                         </Popconfirm>
                     ) : null,
             },
@@ -133,16 +152,61 @@ export default class SubmittedResignation extends React.Component {
                 },
             ],
             count: 2,
+            user: this.props.user,
+            pendingForManager: {}
         };
+
     }
 
-    handleDelete = key => {
+
+    componentDidMount() {
+        if (checkPermission(this.state.user, 'ROLE_MANAGER')) {
+            getResignationForMgr().then(response => {
+                this.setState({pendingForManager: response});
+                this.setState({dataSource: response});
+            }).catch(error => {
+
+            });
+        }
+        if (checkPermission(this.state.user, 'ROLE_ADMIN')) {
+            getResignationForAdmin().then(response => {
+                this.setState({pendingForManager: response});
+                this.setState({dataSource: response});
+            }).catch(error => {
+
+            });
+        }
+        if (checkPermission(this.state.user, 'ROLE_FINANCE')) {
+            getResignationForFinance().then(response => {
+                this.setState({pendingForManager: response});
+                this.setState({dataSource: response});
+            }).catch(error => {
+
+            });
+        }
+        if (checkPermission(this.state.user, 'ROLE_HR')) {
+            getResignationForHr().then(response => {
+                this.setState({pendingForManager: response});
+                this.setState({dataSource: response});
+            }).catch(error => {
+
+            });
+        }
+
+    }
+
+    handleReject = key => {
         const dataSource = [...this.state.dataSource];
-        this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
+        this.setState({dataSource: dataSource.filter(item => item.key !== key)});
+    };
+
+    handleApprove = key => {
+        const dataSource = [...this.state.dataSource];
+        this.setState({dataSource: dataSource.filter(item => item.key !== key)});
     };
 
     handleAdd = () => {
-        const { count, dataSource } = this.state;
+        const {count, dataSource} = this.state;
         const newData = {
             key: count,
             name: `Edward King ${count}`,
@@ -163,17 +227,18 @@ export default class SubmittedResignation extends React.Component {
             ...item,
             ...row,
         });
-        this.setState({ dataSource: newData });
+        this.setState({dataSource: newData});
     };
 
     render() {
-        const { dataSource } = this.state;
+        const {dataSource} = this.state;
         const components = {
             body: {
                 row: EditableFormRow,
                 cell: EditableCell,
             },
         };
+
         const columns = this.columns.map(col => {
             if (!col.editable) {
                 return col;
@@ -191,9 +256,6 @@ export default class SubmittedResignation extends React.Component {
         });
         return (
             <div>
-                <Button onClick={this.handleAdd} type="primary" style={{ marginBottom: 16 }}>
-                    Add a row
-                </Button>
                 <Table
                     components={components}
                     rowClassName={() => 'editable-row'}

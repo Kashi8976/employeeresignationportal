@@ -33,8 +33,7 @@ class HrDashboard extends React.Component {
     render() {
         return (
             <div>
-                {/* {this.state.user && this.state.user.id ? <Dashboard user={this.state.user}/> : <WrappedNormalLoginForm/>} */}
-                <Dashboard user={'Prakash'}/>
+                 {this.state.user && this.state.user.id ? <Dashboard user={this.state.user}/> : <WrappedNormalLoginForm/>}
             </div>
         );
     }

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Table } from 'antd';
+import {getSubmittedResign, openNotificationWithIcon} from "../utils/APIUtils";
 
 const columns = [
     { title: 'Department', dataIndex: 'department', key: 'department' },
@@ -37,7 +38,54 @@ const data = [
     },
 ];
 
-function ResignationStatus() {
+function ResignationStatus(props) {
+    let loginUser = props.user.user;
+    let manager = props.user.manager;
+    const [loading, setLoading] = React.useState(false);
+    const [resignStatus, setResignStatus] = React.useState({});
+    const [submittedResign, setSubmittedResign] = React.useState("");
+    const data = [
+        {
+            key: 1,
+            department: 'Manager',
+            status: resignStatus.managerStatus,
+            actionBy: manager.name,
+            description: 'Comment Implementation is pending',
+        },
+        {
+            key: 2,
+            department: 'Finance',
+            status: resignStatus.financeStatus,
+            actionBy: 'Finance Department',
+            description: 'Finance section is clear, Approving the resignation',
+        },
+        {
+            key: 3,
+            department: 'Admin',
+            status: resignStatus.adminStatus,
+            actionBy: 'Admin Department',
+            description: '',
+        },
+        {
+            key: 4,
+            department: 'HR',
+            status: resignStatus.hrstatus,
+            actionBy: 'HR Department',
+            description: '',
+        },
+    ];
+    useEffect(() => {
+        if(loginUser.status === 'FILED_RESIGNATION') {
+            getSubmittedResign(props.user.id).then(response => {
+                setSubmittedResign(response);
+                setResignStatus(response.resignationStatus);
+            }).catch(error => {
+                openNotificationWithIcon("error", 'Error in fetching Resignation', '')
+            });
+
+        }
+    }, []);
+
     return (
         <Table
             columns={columns}

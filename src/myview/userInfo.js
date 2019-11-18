@@ -2,19 +2,21 @@ import React from 'react';
 import {Badge, Descriptions } from 'antd';
 
 function UserInfo(props) {
+    let loginUser = props.user.user;
+    let manager = props.user.manager;
     return (
         <Descriptions theme="dark" title="User Info" layout="vertical" bordered>
-            <Descriptions.Item label="Name">Kashinath Shinge</Descriptions.Item>
-            <Descriptions.Item label="Email Address">kshinge@mediaocean.com</Descriptions.Item>
-            <Descriptions.Item label="Employee ID">MO-1409</Descriptions.Item>
-            <Descriptions.Item label="Date Of Joining">2018-06-01</Descriptions.Item>
-            <Descriptions.Item label="Project"> Prisma </Descriptions.Item>
-            <Descriptions.Item label="Department"> Developer </Descriptions.Item>
+            <Descriptions.Item label="Name">{loginUser.name}</Descriptions.Item>
+            <Descriptions.Item label="Email Address">{loginUser.email}</Descriptions.Item>
+            <Descriptions.Item label="Employee ID">{loginUser.empId}</Descriptions.Item>
+            <Descriptions.Item label="Date Of Joining">{loginUser.dateOfJoining.substring(0, 10)}</Descriptions.Item>
+            <Descriptions.Item label="Project"> {loginUser.project} </Descriptions.Item>
+            <Descriptions.Item label="Department"> - </Descriptions.Item>
             <Descriptions.Item label="Status" span={3}>
-                <Badge status="processing" text="Active" />
+                <Badge status="processing" text={loginUser.status} />
             </Descriptions.Item>
-            <Descriptions.Item label="Manager Id">-</Descriptions.Item>
-            <Descriptions.Item label="Manager Name" span={2}>Tanvi B</Descriptions.Item>
+            <Descriptions.Item label="Manager Id">{manager.empId}</Descriptions.Item>
+            <Descriptions.Item label="Manager Name" span={2}>{manager.name}</Descriptions.Item>
             <Descriptions.Item label="Location Info">
                 Mediaocean Asia Pvt ltd
                 <br />
