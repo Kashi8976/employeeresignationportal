@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import {Button, Descriptions, Input, Typography,Spin, Alert} from 'antd';
-import {openNotificationWithIcon, submitResignation, getSubmittedResign, updateStatus} from "../utils/APIUtils";
+import {Button, Descriptions, Input, Popconfirm, Spin, Typography} from 'antd';
+import {getSubmittedResign, openNotificationWithIcon, submitResignation, updateStatus} from "../utils/APIUtils";
 
 const {TextArea} = Input;
 const {Paragraph} = Typography;
@@ -12,11 +12,13 @@ function ApplyResignation(props) {
     const [resignComment, setResignComment] = React.useState("");
     const [submittedResign, setSubmittedResign] = React.useState("");
     useEffect(() => {
-        if(loginUser.status === 'FILED_RESIGNATION') {
+        if (loginUser.status === 'FILED_RESIGNATION') {
             getSubmittedResign(props.user.id).then(response => {
-                setSubmittedResign(response);
-                setResignComment(response.reason);
-                openNotificationWithIcon("info", 'Already Submitted Resignation', '')
+                if (response.resignation_id) {
+                    setSubmittedResign(response);
+                    setResignComment(response.reason);
+                    openNotificationWithIcon("info", 'Already Submitted Resignation', '');
+                }
             }).catch(error => {
                 openNotificationWithIcon("error", 'Error in fetching Resignation', '')
             });
@@ -52,7 +54,7 @@ function ApplyResignation(props) {
             application_date: new Date(),
             status: "WITHDRAW"
         }
-        updateStatus(props.user.id).then(response => {
+        updateStatus(props.user.id, submittedResign.resignation_id).then(response => {
             if (response) {
                 window.location = '/';
                 openNotificationWithIcon('success', 'Resignation WithDraw Successfully', '');
@@ -69,35 +71,45 @@ function ApplyResignation(props) {
     return (
         <div>
             <Spin tip="In Progress..." spinning={loading}>
-            <Descriptions bordered title="Employee Resignation Form" column={2}>
-                <Descriptions.Item label="Name">{loginUser.name}</Descriptions.Item>
-                <Descriptions.Item label="Employee ID">{loginUser.empId}</Descriptions.Item>
-                <Descriptions.Item label="Manager Id">{manager.empId}</Descriptions.Item>
-                <Descriptions.Item label="Manager Name">{manager.name}</Descriptions.Item>
-                <Descriptions.Item label="Resignation Reason: " span={2}>
-                    <TextArea
-                        placeholder="Rejection Comments"
-                        autoSize={{minRows: 3, maxRows: 5}}
-                        onChange={e=> setResignComment(e.target.value)}
-                        value={resignComment}
-                        disabled={submittedResign}
-                    />
-                </Descriptions.Item>
+                <Descriptions bordered title="Employee Resignation Form" column={2}>
+                    <Descriptions.Item label="Name">{loginUser.name}</Descriptions.Item>
+                    <Descriptions.Item label="Employee ID">{loginUser.empId}</Descriptions.Item>
+                    <Descriptions.Item label="Manager Id">{manager.empId}</Descriptions.Item>
+                    <Descriptions.Item label="Manager Name">{manager.name}</Descriptions.Item>
+                    <Descriptions.Item label="Resignation Reason: " span={2}>
+                        <TextArea
+                            placeholder="Rejection Comments"
+                            autoSize={{minRows: 3, maxRows: 5}}
+                            onChange={e => setResignComment(e.target.value)}
+                            value={resignComment}
+                            disabled={submittedResign}
+                        />
+                    </Descriptions.Item>
 
-            </Descriptions>
-            <br/>
-            <br/>
-            <Paragraph>
-                By Submitting resignation form I accept the Employee resignation and termination policies as per the
-                Mediaocean Employees resignation Policies
-            </Paragraph>
-            <br/>
-            <br/>
-            <div>
-                <Button className='resignation-btn' onClick={submitResign} disabled={submittedResign} type="danger">Submit</Button>
-                <Button className='resignation-btn'>Cancel</Button>
-                <Button  className='resignation-btn' onClick={withdrawResignation} disabled={!submittedResign} type="primary">Withdraw</Button>
-            </div>
+                </Descriptions>
+                <br/>
+                <br/>
+                <Paragraph>
+                    By Submitting resignation form I accept the Employee resignation and termination policies as per the
+                    Mediaocean Employees resignation Policies
+                </Paragraph>
+                <br/>
+                <br/>
+                <div>
+                    <Popconfirm placement="right" title='Are you sure to Submit Resignation?' onConfirm={submitResign} okText="Yes"
+                                cancelText="No">
+
+                        <Button className='resignation-btn' disabled={submittedResign} type="danger">Submit</Button>
+                    </Popconfirm>
+
+                    <Button className='resignation-btn'>Cancel</Button>
+                    <Popconfirm placement="right" title='Are you sure to withdraw Resignation?' onConfirm={withdrawResignation} okText="Yes"
+                                cancelText="No">
+
+                        <Button className='resignation-btn' disabled={!submittedResign}
+                                type="primary">Withdraw</Button>
+                    </Popconfirm>
+                </div>
             </Spin>
         </div>
     );

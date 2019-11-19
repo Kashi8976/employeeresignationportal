@@ -9,7 +9,7 @@ import SubmittedResignation from "./otherview/submittedResignation";
 import ApprovedByMe from "./otherview/approvedbyme";
 import RejectedByMe from "./otherview/rejectedbyme";
 import PageNotFound from "./otherview/pageNotFound";
-import FeedbackForm from './myview/exitInterviewForm';
+import FeedbackForm from './myview/FeedbackForm';
 import {ACCESS_TOKEN} from "./constants";
 import {checkPermission, checkResigned} from "./utils/APIUtils";
 
@@ -115,14 +115,31 @@ export default class Dashboard extends React.Component {
                                     <Icon type="file"/>
                                     <span>File</span>
                                 </Menu.Item>
+                                <SubMenu
+                                    key="sub4"
+                                    disabled={!(checkPermission(this.state.user, 'ROLE_HR') ||
+                                        checkPermission(this.state.user, 'ROLE_ADMIN') ||
+                                        checkPermission(this.state.user, 'ROLE_FINANCE'))
+                                    }
+                                    title={
+                                        <span>
+                                        <Icon type="bar-chart" />
+                                        <span>REPORT</span>
+                                    </span>
+                                    }
+                                >
+                                    <Menu.Item key="14"><Link > Resignation Status</Link></Menu.Item>
+                                    <Menu.Item key="15"><Link >Resignation Analysis</Link></Menu.Item>
+                                    <Menu.Item key="16"><Link >Release Experience Letter</Link></Menu.Item>
+                                </SubMenu>
                             </Menu>
                         </Sider>
                         <Layout>
                             <Content style={{margin: '0 16px'}}>
-                                <Breadcrumb style={{margin: '16px 0'}}>
-                                    <Breadcrumb.Item>My View </Breadcrumb.Item>
-                                    <Breadcrumb.Item>My Info</Breadcrumb.Item>
-                                </Breadcrumb>
+                                {/*<Breadcrumb style={{margin: '16px 0'}}>*/}
+                                {/*    <Breadcrumb.Item>My View </Breadcrumb.Item>*/}
+                                {/*    <Breadcrumb.Item>My Info</Breadcrumb.Item>*/}
+                                {/*</Breadcrumb>*/}
                                 <div style={{padding: 24, background: '#fff', height: '100%'}}>
                                     <Switch>
                                         <Route exact path="/" render={(props) =>(
@@ -149,7 +166,9 @@ export default class Dashboard extends React.Component {
                                         <Route exact path="/rejected" render={(props) =>(
                                             <RejectedByMe user={this.state.user}/>
                                         )}/>
-                                        <Route exact path="/exitform" component={FeedbackForm}/>
+                                        <Route exact path="/exitform" render={(props) =>(
+                                            <FeedbackForm user={this.state.user}/>
+                                        )}/>
                                         <Route component={PageNotFound}/>
                                     </Switch>
                                 </div>

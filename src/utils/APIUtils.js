@@ -1,4 +1,11 @@
-import {ACCESS_TOKEN, API_BASE_URL, API_RESIGN_URL, API_RESIGN_STATUS_URL} from '../constants';
+import {
+    ACCESS_TOKEN,
+    API_BASE_URL, API_EXIT_INTERVIEW_ANSWER_URL,
+    API_EXIT_INTERVIEW_QUE_URL, API_EXIT_INTERVIEW_SUBMIT_URL,
+    API_EXIT_INTERVIEW_URL,
+    API_RESIGN_STATUS_URL,
+    API_RESIGN_URL
+} from '../constants';
 import {notification} from "antd";
 import _ from 'lodash'
 
@@ -92,9 +99,9 @@ export function submitResignation(resignationRequest) {
     });
 }
 
-export function checkResigned (user) {
+export function checkResigned(user) {
     let resigned = false;
-    if(user.status !== 'ACTIVE') {
+    if (user.status !== 'ACTIVE') {
         resigned = true;
     }
     console.log(resigned)
@@ -127,10 +134,8 @@ export function getResignationForFinance() {
         url: API_RESIGN_STATUS_URL + "/getResignationforfinance",
         method: 'GET'
     });
+
 }
-
-
-
 
 export function getSubmittedResign(empId) {
     return request({
@@ -139,9 +144,9 @@ export function getSubmittedResign(empId) {
     });
 }
 
-export function updateStatus(empId) {
+export function updateStatus(empId, resignId) {
     return request({
-        url: API_RESIGN_URL + "/updatestatus?employeeId=" + empId + "&status=WITHDRAW",
+        url: API_RESIGN_URL + "/updatestatus?employeeId=" + empId + "&status=WITHDRAW&resignId="+resignId,
         method: 'GET'
     });
 }
@@ -152,4 +157,45 @@ export const openNotificationWithIcon = (type, message, description) => {
         message: message,
         description: description,
     });
+}
+
+export function updateResignationStatus(udpateRequest) {
+    return request({
+        url: API_RESIGN_STATUS_URL + "/update",
+        method: 'POST',
+        body: JSON.stringify(udpateRequest)
+    });
+}
+
+export function getResignationApprovedByMe(getRequest) {
+    return request({
+        url: API_RESIGN_STATUS_URL + "/getResignationApprovedByMe",
+        method: 'POST',
+        body: JSON.stringify(getRequest)
+    });
+}
+
+export function getQuestions() {
+    return request({
+        url: API_EXIT_INTERVIEW_QUE_URL,
+        method: 'GET'
+    });
+
+}
+
+export function sendAnswer(answerRequest) {
+    return request({
+        url: API_EXIT_INTERVIEW_SUBMIT_URL,
+        method: 'POST',
+        body: JSON.stringify(answerRequest)
+    });
+
+}
+
+export function getAnswerById(userId) {
+    return request({
+        url: API_EXIT_INTERVIEW_ANSWER_URL+"?userId="+userId,
+        method: 'GET'
+    });
+
 }

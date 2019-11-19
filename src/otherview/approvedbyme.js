@@ -1,51 +1,89 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Table } from 'antd';
+import React, {useEffect} from 'react';
+import {Table} from 'antd';
+import {
+    checkPermission, getResignationApprovedByMe,
+    getResignationForAdmin,
+    getResignationForFinance, getResignationForHr,
+    getResignationForMgr
+} from "../utils/APIUtils";
 
 const columns = [
     {
-        title: 'Name',
-        dataIndex: 'name',
-        render: text => <a>{text}</a>,
-    },
-    {
-        title: 'Cash Assets',
-        className: 'column-money',
-        dataIndex: 'money',
-    },
-    {
-        title: 'Address',
-        dataIndex: 'address',
-    },
-];
+        title: 'Employee Name',
+        dataIndex: 'empName',
 
-const data = [
-    {
-        key: '1',
-        name: 'John Brown',
-        money: '￥300,000.00',
-        address: 'New York No. 1 Lake Park',
     },
     {
-        key: '2',
-        name: 'Jim Green',
-        money: '￥1,256,000.00',
-        address: 'London No. 1 Lake Park',
+        title: 'Employee Id',
+        dataIndex: 'empId',
     },
     {
-        key: '3',
-        name: 'Joe Black',
-        money: '￥120,000.00',
-        address: 'Sidney No. 1 Lake Park',
+        title: 'Resignation Id',
+        dataIndex: 'resignationId',
+    },
+    {
+        title: 'Status',
+        dataIndex: 'status',
+    },
+    {
+        title: 'Comment',
+        dataIndex: 'comment',
+        editable: true,
+        width: '20%',
     },
 ];
 
 
-function ApprovedByMe() {
+function ApprovedByMe(props) {
+    let loginUser = props.user;
+    let manager = props.user.manager;
+    const [loading, setLoading] = React.useState(false);
+    const [approvedResign, setApprovedResign] = React.useState([]);
+    console.log("use effect ")
+    useEffect( () => {
+        let requestObj = {
+            userId: loginUser.id,
+            status: 'APPROVE',
+        }
+        if (checkPermission(loginUser, 'ROLE_MANAGER')) {
+            requestObj.dept = "MANAGER";
+            console.log("use effect manager")
+            getResignationApprovedByMe(requestObj).then(response => {
+                setApprovedResign(response);
+            }).catch(error => {
+
+            });
+        }
+        if (checkPermission(loginUser, 'ROLE_ADMIN')) {
+            requestObj.dept = "ADMIN";
+            getResignationApprovedByMe(requestObj).then(response => {
+                setApprovedResign(response);
+            }).catch(error => {
+
+            });
+        }
+        if (checkPermission(loginUser, 'ROLE_FINANCE')) {
+            requestObj.dept = "FINANCE";
+            getResignationApprovedByMe(requestObj).then(response => {
+                setApprovedResign(response);
+            }).catch(error => {
+
+            });
+        }
+        if (checkPermission(loginUser, 'ROLE_HR')) {
+            requestObj.dept = "HR";
+            getResignationApprovedByMe(requestObj).then(response => {
+                setApprovedResign(response);
+            }).catch(error => {
+
+            });
+        }
+    }, []);
+
     return (
         <Table
             columns={columns}
-            dataSource={data}
+            dataSource={approvedResign}
             bordered
             title={() => 'Approved By ME'}
         />

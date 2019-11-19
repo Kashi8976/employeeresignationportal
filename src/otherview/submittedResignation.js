@@ -5,7 +5,8 @@ import {
     getResignationForAdmin,
     getResignationForFinance,
     getResignationForHr,
-    getResignationForMgr
+    getResignationForMgr, openNotificationWithIcon,
+    updateResignationStatus
 } from "../utils/APIUtils";
 
 const EditableContext = React.createContext();
@@ -100,7 +101,7 @@ export default class SubmittedResignation extends React.Component {
             {
                 title: 'Employee Name',
                 dataIndex: 'empName',
-                width: '30%',
+
             },
             {
                 title: 'Employee Id',
@@ -115,21 +116,28 @@ export default class SubmittedResignation extends React.Component {
                 dataIndex: 'status',
             },
             {
+                title: 'Comment',
+                dataIndex: 'comment',
+                editable: true,
+                width: '20%',
+                onClick: this.toggleEdit
+            },
+            {
                 title: 'Reject',
-                dataIndex: 'operation',
+                dataIndex: 'operationreject',
                 render: (text, record) =>
                     this.state.dataSource.length >= 1 ? (
-                        <Popconfirm title="Sure to reject?" onConfirm={() => this.handleReject(record.key)}>
+                        <Popconfirm title="Sure to reject?" onConfirm={() => this.handleReject(record.key, record)}>
                             <a>Reject</a>
                         </Popconfirm>
                     ) : null,
             },
             {
                 title: 'Approve',
-                dataIndex: 'operation',
+                dataIndex: 'operationapprove',
                 render: (text, record) =>
                     this.state.dataSource.length >= 1 ? (
-                        <Popconfirm title="Sure to Approve?" onConfirm={() => this.handleApprove(record.key)}>
+                        <Popconfirm title="Sure to Approve?" onConfirm={() => this.handleApprove(record.key, record)}>
                             <a>Approve</a>
                         </Popconfirm>
                     ) : null,
@@ -137,20 +145,7 @@ export default class SubmittedResignation extends React.Component {
         ];
 
         this.state = {
-            dataSource: [
-                {
-                    key: '0',
-                    name: 'Edward King 0',
-                    age: '32',
-                    address: 'London, Park Lane no. 0',
-                },
-                {
-                    key: '1',
-                    name: 'Edward King 1',
-                    age: '32',
-                    address: 'London, Park Lane no. 1',
-                },
-            ],
+            dataSource: [],
             count: 2,
             user: this.props.user,
             pendingForManager: {}
@@ -195,28 +190,99 @@ export default class SubmittedResignation extends React.Component {
 
     }
 
-    handleReject = key => {
+    handleApprove = (key, row) => {
+        const newData = [...this.state.dataSource];
+        const index = newData.findIndex(item => row.key === item.key);
+        const item = newData[index];
+        let request = {
+            resignationId: key,
+            status: 'APPROVE',
+            approverId: this.state.user.id,
+            comment: item.comment
+        }
+        //console.log(request);
+        if (checkPermission(this.state.user, 'ROLE_MANAGER')) {
+            request.dept = "MANAGER"
+            updateResignationStatus(request).then(response => {
+                openNotificationWithIcon("success", "APPROVED Sucessfully")
+            }).catch(error => {
+
+            });
+        }
+        if (checkPermission(this.state.user, 'ROLE_ADMIN')) {
+            request.dept = "ADMIN"
+            updateResignationStatus(request).then(response => {
+                openNotificationWithIcon("success", "APPROVED Sucessfully")
+            }).catch(error => {
+
+            });
+        }
+        if (checkPermission(this.state.user, 'ROLE_FINANCE')) {
+            request.dept = "FINANCE"
+            updateResignationStatus(request).then(response => {
+                openNotificationWithIcon("success", "APPROVED Sucessfully")
+            }).catch(error => {
+
+            });
+        }
+        if (checkPermission(this.state.user, 'ROLE_HR')) {
+            request.dept = "HR"
+            updateResignationStatus(request).then(response => {
+                openNotificationWithIcon("success", "APPROVED Sucessfully")
+            }).catch(error => {
+
+            });
+        }
         const dataSource = [...this.state.dataSource];
         this.setState({dataSource: dataSource.filter(item => item.key !== key)});
     };
 
-    handleApprove = key => {
+    handleReject  = (key, row) => {
+        const newData = [...this.state.dataSource];
+        const index = newData.findIndex(item => row.key === item.key);
+        const item = newData[index];
+        let request = {
+            resignationId: key,
+            status: 'REJECT',
+            approverId: this.state.user.id,
+            comment: item.comment
+        }
+
+        if (checkPermission(this.state.user, 'ROLE_MANAGER')) {
+            request.dept = "MANAGER"
+            updateResignationStatus(request).then(response => {
+                openNotificationWithIcon("success", "Rejected Sucessfully")
+            }).catch(error => {
+
+            });
+        }
+        if (checkPermission(this.state.user, 'ROLE_ADMIN')) {
+            request.dept = "ADMIN"
+            updateResignationStatus(request).then(response => {
+                openNotificationWithIcon("success", "Rejected Sucessfully")
+            }).catch(error => {
+
+            });
+        }
+        if (checkPermission(this.state.user, 'ROLE_FINANCE')) {
+            request.dept = "FINANCE"
+            updateResignationStatus(request).then(response => {
+                openNotificationWithIcon("success", "Rejected Sucessfully")
+            }).catch(error => {
+
+            });
+        }
+        if (checkPermission(this.state.user, 'ROLE_HR')) {
+            request.dept = "HR"
+            updateResignationStatus(request).then(response => {
+                openNotificationWithIcon("success", "Rejected Sucessfully")
+            }).catch(error => {
+
+            });
+        }
+
         const dataSource = [...this.state.dataSource];
         this.setState({dataSource: dataSource.filter(item => item.key !== key)});
-    };
-
-    handleAdd = () => {
-        const {count, dataSource} = this.state;
-        const newData = {
-            key: count,
-            name: `Edward King ${count}`,
-            age: 32,
-            address: `London, Park Lane no. ${count}`,
-        };
-        this.setState({
-            dataSource: [...dataSource, newData],
-            count: count + 1,
-        });
     };
 
     handleSave = row => {
