@@ -2,9 +2,9 @@ import React, {useEffect} from 'react';
 import {Table} from 'antd';
 import {
     checkPermission, getResignationApprovedByMe,
-    getResignationForAdmin,
-    getResignationForFinance, getResignationForHr,
-    getResignationForMgr
+    // getResignationForAdmin,
+    // getResignationForFinance, getResignationForHr,
+    // getResignationForMgr
 } from "../utils/APIUtils";
 
 const columns = [
@@ -36,8 +36,8 @@ const columns = [
 
 function ApprovedByMe(props) {
     let loginUser = props.user;
-    let manager = props.user.manager;
-    const [loading, setLoading] = React.useState(false);
+    // let manager = props.user.manager;
+    // const [loading, setLoading] = React.useState(false);
     const [approvedResign, setApprovedResign] = React.useState([]);
     console.log("use effect ")
     useEffect( () => {

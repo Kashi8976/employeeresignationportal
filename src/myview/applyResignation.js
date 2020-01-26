@@ -6,30 +6,27 @@ const {TextArea} = Input;
 const {Paragraph} = Typography;
 
 function ApplyResignation(props) {
-    let loginUser = props.user.user;
+    let loginUser = props.user;
     let manager = props.user.manager;
     const [loading, setLoading] = React.useState(false);
     const [resignComment, setResignComment] = React.useState("");
     const [submittedResign, setSubmittedResign] = React.useState("");
     useEffect(() => {
-        if (loginUser.status === 'FILED_RESIGNATION') {
-            getSubmittedResign(props.user.id).then(response => {
-                if (response.resignation_id) {
-                    setSubmittedResign(response);
-                    setResignComment(response.reason);
-                    openNotificationWithIcon("info", 'Already Submitted Resignation', '');
-                }
-            }).catch(error => {
-                openNotificationWithIcon("error", 'Error in fetching Resignation', '')
-            });
-
-        }
+        getSubmittedResign(props.user.mail).then(response => {
+            if (response.resignation_id) {
+                setSubmittedResign(response);
+                setResignComment(response.reason);
+                openNotificationWithIcon("info", 'Already Submitted Resignation', '');
+            }
+        }).catch(error => {
+            openNotificationWithIcon("error", 'Error in fetching Resignation', '')
+        });
     }, []);
     const submitResign = () => {
         setLoading(true);
         const resignRequest = {
             reason: resignComment,
-            user_id: props.user.id,
+            user_id: props.user.mail,
         }
         submitResignation(resignRequest).then(response => {
             if (response) {
@@ -49,12 +46,12 @@ function ApplyResignation(props) {
     const withdrawResignation = () => {
         setLoading(true);
         const resignRequest = {
-            user_id: props.user.id,
+            user_id: props.user.mail,
             reason: resignComment,
             application_date: new Date(),
             status: "WITHDRAW"
         }
-        updateStatus(props.user.id, submittedResign.resignation_id).then(response => {
+        updateStatus(props.user.mail, submittedResign.resignation_id).then(response => {
             if (response) {
                 window.location = '/';
                 openNotificationWithIcon('success', 'Resignation WithDraw Successfully', '');
@@ -73,8 +70,8 @@ function ApplyResignation(props) {
             <Spin tip="In Progress..." spinning={loading}>
                 <Descriptions bordered title="Employee Resignation Form" column={2}>
                     <Descriptions.Item label="Name">{loginUser.name}</Descriptions.Item>
-                    <Descriptions.Item label="Employee ID">{loginUser.empId}</Descriptions.Item>
-                    <Descriptions.Item label="Manager Id">{manager.empId}</Descriptions.Item>
+                    <Descriptions.Item label="Employee ID">{loginUser.mail}</Descriptions.Item>
+                    <Descriptions.Item label="Manager Id">{manager.mail}</Descriptions.Item>
                     <Descriptions.Item label="Manager Name">{manager.name}</Descriptions.Item>
                     <Descriptions.Item label="Resignation Reason: " span={2}>
                         <TextArea
@@ -96,14 +93,16 @@ function ApplyResignation(props) {
                 <br/>
                 <br/>
                 <div>
-                    <Popconfirm placement="right" title='Are you sure to Submit Resignation?' onConfirm={submitResign} okText="Yes"
+                    <Popconfirm placement="right" title='Are you sure to Submit Resignation?' onConfirm={submitResign}
+                                okText="Yes"
                                 cancelText="No">
 
                         <Button className='resignation-btn' disabled={submittedResign} type="danger">Submit</Button>
                     </Popconfirm>
 
                     <Button className='resignation-btn'>Cancel</Button>
-                    <Popconfirm placement="right" title='Are you sure to withdraw Resignation?' onConfirm={withdrawResignation} okText="Yes"
+                    <Popconfirm placement="right" title='Are you sure to withdraw Resignation?'
+                                onConfirm={withdrawResignation} okText="Yes"
                                 cancelText="No">
 
                         <Button className='resignation-btn' disabled={!submittedResign}

@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {Link} from "react-router-dom";
-import {Breadcrumb, Icon, Layout, Menu, Row, Col, Avatar , Button} from "antd";
+import { Icon, Layout, Menu, Row, Col, Avatar , Button} from "antd";
 import UserInfo from "./myview/userInfo";
 import ApplyResignation from "./myview/applyResignation";
 import ResignationStatus from "./myview/ResignationStatus";
@@ -47,7 +47,7 @@ export default class Dashboard extends React.Component {
                             <Col span={4} offset={12}>
                                 <div>
                                     <Avatar style={{ backgroundColor: '#7265e6', verticalAlign: 'middle' }} size={60}>
-                                        {this.state.user.username}
+                                        {this.state.user.name}
                                     </Avatar>
                                     <Button
                                         type="primary"
@@ -67,7 +67,7 @@ export default class Dashboard extends React.Component {
                             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" className='option1'>
                                     <SubMenu
                                     key="sub1"
-                                    // disabled={!checkPermission(this.state.user, 'ROLE_EMPLOYEE')}
+                                    disabled={!checkPermission(this.state.user, 'IN_USER')}
                                     title={
                                         <span>
                                         <Icon type="user"/>
@@ -77,12 +77,12 @@ export default class Dashboard extends React.Component {
                                 >
                                     <Menu.Item key="3"><Link to="/">My Info</Link></Menu.Item>
                                     <Menu.Item key="4"><Link to="/applyResignation">Resignation</Link></Menu.Item>
-                                    <Menu.Item key="5" disabled={!checkResigned(this.state.user.user)}><Link to="/resignationStatus">Resignation Status</Link></Menu.Item>
-                                    <Menu.Item key="6" disabled={!checkResigned(this.state.user.user)}><Link to="/exitform">Exit Interview</Link></Menu.Item>
+                                    <Menu.Item key="5" disabled={!checkResigned(this.state.user)}><Link to="/resignationStatus">Resignation Status</Link></Menu.Item>
+                                    <Menu.Item key="6" disabled={!checkResigned(this.state.user)}><Link to="/exitform">Exit Interview</Link></Menu.Item>
                                 </SubMenu>
                                 <SubMenu
                                     key="sub2"
-                                    disabled={!checkPermission(this.state.user, 'ROLE_MANAGER')}
+                                    disabled={!checkPermission(this.state.user, 'IN_MANAGER')}
                                     title={
                                         <span>
                                         <Icon type="team"/>
@@ -96,9 +96,9 @@ export default class Dashboard extends React.Component {
                                 </SubMenu>
                                 <SubMenu
                                     key="sub3"
-                                    disabled={!(checkPermission(this.state.user, 'ROLE_HR') ||
-                                        checkPermission(this.state.user, 'ROLE_ADMIN') ||
-                                            checkPermission(this.state.user, 'ROLE_FINANCE'))
+                                    disabled={!(checkPermission(this.state.user, 'IN_HR') ||
+                                        checkPermission(this.state.user, 'IN_ADMIN') ||
+                                            checkPermission(this.state.user, 'IN_FINANCE') ||  checkPermission(this.state.user, 'IN_IT'))
                                     }
                                     title={
                                         <span>
@@ -117,9 +117,9 @@ export default class Dashboard extends React.Component {
                                 </Menu.Item>
                                 <SubMenu
                                     key="sub4"
-                                    disabled={!(checkPermission(this.state.user, 'ROLE_HR') ||
-                                        checkPermission(this.state.user, 'ROLE_ADMIN') ||
-                                        checkPermission(this.state.user, 'ROLE_FINANCE'))
+                                    disabled={!(checkPermission(this.state.user, 'IN_HR') ||
+                                        checkPermission(this.state.user, 'IN_ADMIN') ||
+                                        checkPermission(this.state.user, 'IN_FINANCE'))
                                     }
                                     title={
                                         <span>

@@ -2,7 +2,6 @@ import {
     ACCESS_TOKEN,
     API_BASE_URL, API_EXIT_INTERVIEW_ANSWER_URL,
     API_EXIT_INTERVIEW_QUE_URL, API_EXIT_INTERVIEW_SUBMIT_URL,
-    API_EXIT_INTERVIEW_URL,
     API_RESIGN_STATUS_URL,
     API_RESIGN_URL
 } from '../constants';
@@ -34,7 +33,7 @@ const request = (options) => {
 
 export function login(loginRequest) {
     return request({
-        url: API_BASE_URL + "/auth/signin",
+        url: API_BASE_URL + "/auth/login",
         method: 'POST',
         body: JSON.stringify(loginRequest)
     });
@@ -76,7 +75,7 @@ export function getCurrentUser() {
 
 export function checkPermission(user, permission) {
     let hasPermission = false;
-    hasPermission = _.some(user.authorities, function (userPermission) {
+    hasPermission = _.some(user.roles, function (userPermission) {
         return userPermission.authority === permission;
     })
 

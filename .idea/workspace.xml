@@ -1,11 +1,151 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="7b2da775-ea2f-4424-a6ff-922d93bb910b" name="Default Changelist" comment="added resignation approval ui">
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/authentication/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/authentication/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/myview/applyResignation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/myview/applyResignation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/myview/userInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/myview/userInfo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/otherview/approvedbyme.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/otherview/approvedbyme.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/otherview/rejectedbyme.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/otherview/rejectedbyme.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/APIUtils.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/APIUtils.js" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
   <component name="ProjectId" id="1TgUjFXGcak1TSZUjGot4H7Cc6H" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2018.3.5\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\kshinge\Desktop\React Study\employeeresignationportal\public" />
+      <recent name="C:\Users\kshinge\Desktop\React Study\employeeresignationportal\src" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7b2da775-ea2f-4424-a6ff-922d93bb910b" name="Default Changelist" comment="" />
+      <created>1574051740533</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1574051740533</updated>
+      <workItem from="1574051743246" duration="10247000" />
+      <workItem from="1574062669432" duration="581000" />
+      <workItem from="1574075504865" duration="18530000" />
+      <workItem from="1574104639146" duration="3357000" />
+      <workItem from="1574140596019" duration="3760000" />
+      <workItem from="1574331438506" duration="685000" />
+      <workItem from="1574679449287" duration="1624000" />
+      <workItem from="1574756477677" duration="65000" />
+      <workItem from="1575453248555" duration="1577000" />
+      <workItem from="1575884806790" duration="856000" />
+      <workItem from="1575887736850" duration="1711000" />
+      <workItem from="1575898003882" duration="1064000" />
+      <workItem from="1575912861349" duration="45000" />
+      <workItem from="1575966807073" duration="713000" />
+      <workItem from="1576040730055" duration="582000" />
+      <workItem from="1576126681423" duration="490000" />
+      <workItem from="1576475172439" duration="1633000" />
+      <workItem from="1576559246193" duration="590000" />
+      <workItem from="1578890541096" duration="8384000" />
+      <workItem from="1579514331428" duration="1285000" />
+      <workItem from="1579581999710" duration="9831000" />
+      <workItem from="1579670540069" duration="1942000" />
+      <workItem from="1579768090661" duration="3257000" />
+      <workItem from="1579841045749" duration="623000" />
+      <workItem from="1579889760630" duration="597000" />
+      <workItem from="1579934237391" duration="1184000" />
+      <workItem from="1579957768388" duration="1319000" />
+      <workItem from="1579983619515" duration="1192000" />
+      <workItem from="1580034082957" duration="269000" />
+    </task>
+    <task id="LOCAL-00001" summary="added resignation approval ui">
+      <created>1574058039760</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1574058039760</updated>
+    </task>
+    <task id="LOCAL-00002" summary="added resignation approval ui">
+      <created>1574141120947</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1574141120947</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added resignation approval ui" />
+    <option name="LAST_COMMIT_MESSAGE" value="added resignation approval ui" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/Dashboard.js</url>
+          <line>46</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

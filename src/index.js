@@ -6,8 +6,7 @@ import './slider.css';
 import {Form} from 'antd';
 import Login from "./authentication/login";
 import Dashboard from "./Dashboard";
-import {ACCESS_TOKEN} from "./constants";
-import {getCurrentUser, openNotificationWithIcon} from "./utils/APIUtils";
+import {ACCESS_TOKEN, USER_DATA} from "./constants";
 
 const WrappedNormalLoginForm = Form.create({name: 'normal_login'})(Login);
 
@@ -18,22 +17,24 @@ class HrDashboard extends React.Component {
     };
 
     componentDidMount() {
-       // localStorage.removeItem(ACCESS_TOKEN);
-        if (localStorage.getItem(ACCESS_TOKEN)) {
-            getCurrentUser().then(response => {
-                this.setState({user: response});
-            }).catch(error => {
-                openNotificationWithIcon('error', 'Failed to Fetch User', '');
-            });
+        // localStorage.removeItem(ACCESS_TOKEN);
+        if (localStorage.getItem(USER_DATA).accessToken) {
+            let user = localStorage.getItem(USER_DATA).authentication.principal;
+            user.roles = localStorage.getItem(USER_DATA).roles;
+            this.setState({user: user});
         } else {
             this.setState({user: {}});
         }
+    }
+    callback(userPrincipal) {
+        this.setState({user: userPrincipal});
     }
 
     render() {
         return (
             <div>
-                 {this.state.user && this.state.user.id ? <Dashboard user={this.state.user}/> : <WrappedNormalLoginForm/>}
+                {this.state.user && this.state.user.mail ? <Dashboard user={this.state.user}/> :
+                    <WrappedNormalLoginForm callback={this.callback.bind(this)}/>}
             </div>
         );
     }

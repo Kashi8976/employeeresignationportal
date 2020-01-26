@@ -1,8 +1,8 @@
 import React from 'react';
 import {Button, Checkbox, Col, Form, Icon, Input, notification, Row} from 'antd';
 import './login.css';
-import {login, openNotificationWithIcon, openNotificationWithFailure} from '../utils/APIUtils';
-import {ACCESS_TOKEN} from "../constants";
+import {login, openNotificationWithIcon} from '../utils/APIUtils';
+import {USER_DATA} from "../constants";
 
 export default class Login extends React.Component {
     state = {
@@ -10,6 +10,8 @@ export default class Login extends React.Component {
     };
     handleSubmit = e => {
         e.preventDefault();
+        const {callback} = this.props;
+
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
@@ -18,11 +20,16 @@ export default class Login extends React.Component {
                 requestBody.password = values.password;
                 login(requestBody)
                     .then(response => {
-                        localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-                        openNotificationWithIcon('success', 'Login successful', '');
-                        window.location = '/';
+                        //localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+                        if(response){
+                            localStorage.setItem(USER_DATA, response);
+                            openNotificationWithIcon('success', 'Login successful', '');
+                            let user = response.authentication.principal;
+                            user.roles = response.roles;
+                            callback(user);
+                        }
                     }).catch(error => {
-                    openNotificationWithIcon('error', 'Login Failed', '');
+                    openNotificationWithIcon('error', 'Login Failed : ', error);
                 });
             }
         });
